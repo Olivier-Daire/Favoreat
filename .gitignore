@@ -37,3 +37,6 @@ build
 *.ipr
 *~
 *.swp
+
+# API keys
+google_maps_api.xml
