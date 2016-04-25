@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Favoreat</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Favoreat</string>
+    <string name="search">Search</string>
 </resources>
