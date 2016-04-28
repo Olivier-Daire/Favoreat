@@ -1,6 +1,6 @@
 package com.olivierdaire.favoreat;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -47,9 +47,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // TODO Create a new intent where we take the picture
-                // Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, SelectorActivity.class);
+                startActivity(intent);
             }
         });
 

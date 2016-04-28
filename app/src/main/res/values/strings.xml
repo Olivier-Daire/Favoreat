@@ -9,4 +9,6 @@
     <string name="home_string">Home</string>
     <string name="account_string">My account</string>
     <string name="friends_string">My friends</string>
+    <string name="use_camera">Take a picture of your bill and we\'ll scan it to extract useful information</string>
+    <string name="use_input">... Or use direct input</string>
 </resources>

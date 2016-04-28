@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:weightSum="2"
+    android:orientation="vertical"
+    tools:context="com.olivierdaire.favoreat.SelectorActivity">
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/cameraSelector"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_height="match_parent"
+            app:layout_widthPercent="20%"
+            android:layout_marginLeft="36dp"
+            android:src="@drawable/ic_camera_24dp"
+            android:tint="#ffffff" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="75%"
+            app:layout_marginLeftPercent="40%"
+            android:layout_marginRight="36dp"
+            android:layout_centerVertical="true"
+            android:text="@string/use_camera"
+            android:textColor="#ffffff"
+            android:textSize="16dp"
+            android:lineSpacingExtra="6dp"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/inputSelector"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorAccent"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_height="match_parent"
+            app:layout_widthPercent="20%"
+            android:layout_marginLeft="36dp"
+            android:src="@drawable/ic_edit_24dp"
+            android:tint="#ffffff" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="75%"
+            app:layout_marginLeftPercent="40%"
+            android:layout_marginRight="36dp"
+            android:layout_centerVertical="true"
+            android:text="@string/use_input"
+            android:textSize="16dp"
+            android:textColor="#ffffff" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+</LinearLayout>
