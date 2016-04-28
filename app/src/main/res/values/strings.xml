@@ -2,6 +2,7 @@
     <string name="app_name">Favoreat</string>
     <string name="title_activity_maps">Favoreat</string>
     <string name="search">Search</string>
+    <string name="sort">Sort</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
