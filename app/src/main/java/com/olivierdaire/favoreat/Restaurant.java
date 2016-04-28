@@ -11,38 +11,38 @@ import java.io.File;
  */
 public class Restaurant {
     private String name;
+    private double latitude;
+    private double longitude;
     private String type; // TODO Use enum ?
     private int averagePrice;
     private int rating;
     private File photo; // TODO Handle multiple files ?
     public static final int INT_NO_VALUE = -1;
 
-    public Restaurant(String name, String type) {
-        this(name, type, INT_NO_VALUE, INT_NO_VALUE, null);
+    public Restaurant(String name, double latitude, double longitude) {
+        this(name, latitude, longitude,  "", INT_NO_VALUE, INT_NO_VALUE, null);
     }
 
-    public Restaurant(String name, String type, int averagePrice) {
-        this(name, type, averagePrice, INT_NO_VALUE, null);
+    public Restaurant(String name, double latitude, double longitude, String type) {
+        this(name, latitude, longitude,  type, INT_NO_VALUE, INT_NO_VALUE, null);
     }
 
-    public Restaurant(String name, String type, int averagePrice, int rating) {
-        this(name, type, averagePrice, rating, null);
+    public Restaurant(String name, double latitude, double longitude, String type, int averagePrice) {
+        this(name, latitude, longitude, type, averagePrice, INT_NO_VALUE, null);
     }
 
-    public Restaurant(String name, String type, int averagePrice, int rating, File photo) {
+    public Restaurant(String name, double latitude, double longitude, String type, int averagePrice, int rating) {
+        this(name, latitude, longitude, type, averagePrice, rating, null);
+    }
+
+    public Restaurant(String name, double latitude, double longitude, String type, int averagePrice, int rating, File photo) {
         this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.type = type;
         this.averagePrice = averagePrice;
         this.rating = rating;
         this.photo = photo;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getName() {
@@ -51,6 +51,30 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getAveragePrice() {
