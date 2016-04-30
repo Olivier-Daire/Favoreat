@@ -28,9 +28,8 @@ public class SelectorActivity extends AppCompatActivity {
         inputSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // FIXME Uncomment when the form is ready
-                //Intent intent = new Intent(SelectorActivity.this, FormActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(SelectorActivity.this, AddRestaurantActivity.class);
+                startActivity(intent);
             }
         });
     }
