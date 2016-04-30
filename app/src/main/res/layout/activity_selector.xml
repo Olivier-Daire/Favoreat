@@ -17,13 +17,6 @@
         android:background="@color/colorPrimary"
         android:clickable="true">
 
-        <ImageView
-            android:layout_height="match_parent"
-            app:layout_widthPercent="20%"
-            android:layout_marginLeft="36dp"
-            android:src="@drawable/ic_camera_24dp"
-            android:tint="#ffffff" />
-
         <TextView
             android:layout_height="wrap_content"
             app:layout_widthPercent="75%"
@@ -34,6 +27,14 @@
             android:textColor="#ffffff"
             android:textSize="16dp"
             android:lineSpacingExtra="6dp"/>
+
+
+        <ImageView
+            android:layout_height="match_parent"
+            app:layout_widthPercent="20%"
+            android:layout_marginLeft="36dp"
+            android:src="@drawable/ic_camera_24dp"
+             />
 
     </android.support.percent.PercentRelativeLayout>
 
@@ -63,5 +64,12 @@
             android:textColor="#ffffff" />
 
     </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
 
 </LinearLayout>
