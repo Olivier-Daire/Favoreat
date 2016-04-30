@@ -23,35 +23,35 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
-
-
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingLeft="20dp">
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/ic_store_mall_directory_black_24dp"
-                android:layout_margin="30dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" />
 
             <EditText
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
                 android:inputType="textPersonName"
                 android:hint="@string/name"
                 android:ems="10"
                 android:id="@+id/RestaurantName"
                 android:layout_margin="20dp"
-                android:layout_marginTop="0dp" />
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="0dp" />
 
         </LinearLayout>
 
@@ -64,87 +64,90 @@
             tools:context=".MainActivity" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:paddingLeft="20dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/imageView2"
                 android:src="@drawable/ic_room_black_24dp"
-                android:layout_margin="30dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" />
 
             <EditText
-                android:layout_width="160dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress"
                 android:ems="10"
                 android:id="@+id/RestaurantAdress"
+                android:hint="@string/address"
                 android:layout_margin="20dp"
-                android:hint="@string/address" />
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="0dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:paddingLeft="20dp"
-            android:layout_gravity="right" >
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/imageView3"
                 android:src="@drawable/ic_local_dining_black_24dp"
-                android:layout_margin="30dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
 
             <EditText
-                android:layout_width="160dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:ems="10"
                 android:id="@+id/RestaurantCuisine"
+                android:hint="@string/cuisine_type"
                 android:layout_margin="20dp"
-                android:hint="@string/cuisine_type" />
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="0dp"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:paddingLeft="20dp"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="1">
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/imageView4"
                 android:src="@drawable/ic_attach_money_black_24dp"
-                android:layout_margin="30dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="294dp"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent">
 
                 <SeekBar
-                    android:layout_width="179dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/RestaurantPrice"
                     android:scrollIndicators="bottom"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:indeterminate="false" />
 
                 <TextView
@@ -152,39 +155,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/price"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginRight="40dp" />
+                    android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="400dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:paddingLeft="20dp"
-            android:weightSum="1" >
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/imageView6"
                 android:src="@drawable/ic_star_black_24dp"
-                android:layout_margin="30dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
 
             <RatingBar
                 android:id="@+id/RestaurantNote"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
                 android:scaleX="0.6"
                 android:scaleY="0.6"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:numStars="5"
-                android:layout_marginTop="5dp" />
+                android:layout_toEndOf="@+id/imageView6"
+                android:layout_centerInParent="true" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </ScrollView>

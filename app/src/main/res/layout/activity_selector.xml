@@ -60,7 +60,7 @@
             android:layout_marginRight="36dp"
             android:layout_centerVertical="true"
             android:text="@string/use_input"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="#ffffff" />
 
     </android.support.percent.PercentRelativeLayout>
