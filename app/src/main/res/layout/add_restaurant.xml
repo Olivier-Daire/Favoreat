@@ -1,139 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <ImageView
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/ic_store_mall_directory_black_24dp"
-            android:layout_margin="20dp"
-            android:tint="@color/abc_background_cache_hint_selector_material_dark" />
-
-        <EditText
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:ems="10"
-            android:id="@+id/editText"
-            android:layout_margin="20dp"
-            android:layout_marginTop="0dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:paddingLeft="20dp"
-        android:layout_gravity="center_horizontal">
-
-        <ImageView
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:id="@+id/imageView2"
-            android:src="@drawable/ic_room_black_24dp"
-            android:layout_margin="20dp"
-            android:tint="@color/abc_background_cache_hint_selector_material_dark" />
-
-        <EditText
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:ems="10"
-            android:id="@+id/editText2"
-            android:layout_margin="20dp"
-            android:text="Address" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:paddingLeft="20dp"
-        android:layout_gravity="right" >
-
-        <ImageView
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:id="@+id/imageView3"
-            android:src="@drawable/ic_local_dining_black_24dp"
-            android:layout_margin="20dp"
-            android:tint="@color/abc_background_cache_hint_selector_material_dark" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner"
-            android:layout_weight="1"
-            android:layout_margin="15dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:paddingLeft="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"
         android:weightSum="1">
 
-        <ImageView
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:id="@+id/imageView4"
-            android:src="@drawable/ic_attach_money_black_24dp"
-            android:layout_margin="20dp"
-            android:tint="@color/abc_background_cache_hint_selector_material_dark" />
 
-        <SeekBar
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/seekBar"
-            android:layout_weight="1"
-            android:layout_margin="30dp"
-            android:scrollIndicators="bottom" />
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/ic_store_mall_directory_black_24dp"
+                android:layout_margin="30dp"
+                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+
+            <EditText
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/name"
+                android:ems="10"
+                android:id="@+id/RestaurantName"
+                android:layout_margin="20dp"
+                android:layout_marginTop="0dp" />
+
+        </LinearLayout>
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            tools:context=".MainActivity" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:paddingLeft="20dp"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView2"
+                android:src="@drawable/ic_room_black_24dp"
+                android:layout_margin="30dp"
+                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+
+            <EditText
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/RestaurantAdress"
+                android:layout_margin="20dp"
+                android:hint="@string/address" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:paddingLeft="20dp"
+            android:layout_gravity="right" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView3"
+                android:src="@drawable/ic_local_dining_black_24dp"
+                android:layout_margin="30dp"
+                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+
+            <EditText
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/RestaurantCuisine"
+                android:layout_margin="20dp"
+                android:hint="@string/cuisine_type" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:paddingLeft="20dp"
+            android:layout_gravity="center_horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView4"
+                android:src="@drawable/ic_attach_money_black_24dp"
+                android:layout_margin="30dp"
+                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="294dp"
+                android:layout_height="match_parent">
+
+                <SeekBar
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RestaurantPrice"
+                    android:scrollIndicators="bottom"
+                    android:layout_margin="15dp"
+                    android:indeterminate="false" />
+
+                <TextView
+                    android:id="@+id/textPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="40dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:paddingLeft="20dp"
+            android:weightSum="1" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView6"
+                android:src="@drawable/ic_star_black_24dp"
+                android:layout_margin="30dp"
+                android:tint="@color/abc_background_cache_hint_selector_material_dark" />
+
+            <RatingBar
+                android:id="@+id/RestaurantNote"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:layout_gravity="center_vertical"
+                android:numStars="5"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:paddingLeft="20dp"
-        android:weightSum="1" >
-
-        <ImageView
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:id="@+id/imageView6"
-            android:src="@drawable/ic_star_black_24dp"
-            android:layout_margin="20dp"
-            android:tint="@color/abc_background_cache_hint_selector_material_dark" />
-
-        <RatingBar
-            android:id="@+id/ratingBar1"
-            android:layout_width="250dp"
-            android:layout_height="70dp"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:layout_gravity="center_horizontal" />
-
-    </LinearLayout>
+</ScrollView>
 
 </LinearLayout>

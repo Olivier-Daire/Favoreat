@@ -1,6 +1,5 @@
 package com.olivierdaire.favoreat;
 
-
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
