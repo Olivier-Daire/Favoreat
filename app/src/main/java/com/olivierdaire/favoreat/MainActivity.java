@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-
         // NAVIGATION DRAWER
 
         //Initializing NavigationView
