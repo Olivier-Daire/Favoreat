@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -177,15 +176,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         GoogleMap mMap = googleMap;
@@ -211,13 +201,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         listRestaurants = new ArrayList<Restaurant>();
         Map<String,?> mapPref = appSharedPrefs.getAll();
-        int i =0;
         for(Map.Entry<String,?> entry : mapPref.entrySet()){
             Gson gson = new Gson();
             String json = appSharedPrefs.getString(entry.getKey(), "");
             listRestaurants.add(gson.fromJson(json, Restaurant.class));
-            Log.d("test", listRestaurants.get(i).getName());
-            i++;
         }
     }
 }
