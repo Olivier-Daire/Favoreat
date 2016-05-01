@@ -182,7 +182,8 @@
                 android:scaleY="0.6"
                 android:layout_gravity="center_vertical"
                 android:numStars="5"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:stepSize="1"/>
 
         </LinearLayout>
 
