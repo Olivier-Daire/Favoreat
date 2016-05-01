@@ -1,6 +1,10 @@
 package com.olivierdaire.favoreat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -9,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,15 +25,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import android.support.design.widget.NavigationView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+
+    private List<Restaurant> listRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +87,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()){
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
-                    /*  case R.id.inbox:
-                        Toast.makeText(getApplicationContext(),"Inbox Selected",Toast.LENGTH_SHORT).show();
-                        ContentFragment fragment = new ContentFragment();
-                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame,fragment);
-                        fragmentTransaction.commit();
-                        return true;*/
-
-                    // For rest of the options we just show a toast on click
 
                     case R.id.home:
                         Toast.makeText(getApplicationContext(),"Home Selected",Toast.LENGTH_SHORT).show();
@@ -124,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
+        //get list of the restaurants
+        createListRestaurants();
 
     }
 
@@ -164,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_search:
                 return true;
             case R.id.action_sort:
-                // TODO Show dialog and sort restaurants
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -186,8 +192,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         LocationService locationService = new LocationService(MainActivity.this);
         LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
-
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Your current position"));
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses  = geocoder.getFromLocation(locationService.getLatitude(),locationService.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mMap.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getAddressLine(0)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
     }
+
+
+    public void createListRestaurants() {
+
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+
+        listRestaurants = new ArrayList<Restaurant>();
+        Map<String,?> mapPref = appSharedPrefs.getAll();
+        int i =0;
+        for(Map.Entry<String,?> entry : mapPref.entrySet()){
+            Gson gson = new Gson();
+            String json = appSharedPrefs.getString(entry.getKey(), "");
+            listRestaurants.add(gson.fromJson(json, Restaurant.class));
+            Log.d("test", listRestaurants.get(i).getName());
+            i++;
+        }
+    }
 }
+

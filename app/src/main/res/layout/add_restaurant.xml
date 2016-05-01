@@ -184,6 +184,8 @@
                 android:scaleY="0.6"
                 android:layout_gravity="center"
                 android:numStars="5"
+                android:layout_marginTop="5dp"
+                android:stepSize="1"/>
                 android:layout_toEndOf="@+id/imageView6"
                 android:layout_centerInParent="true" />
 
