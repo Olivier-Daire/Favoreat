@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
     }
 
+
     public void createListRestaurants() {
 
         SharedPreferences appSharedPrefs = PreferenceManager
@@ -221,3 +222,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 }
+
