@@ -2,6 +2,7 @@ package com.olivierdaire.favoreat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.preference.PreferenceManager;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-
+    private LocationService locationService;
+    private GoogleMap map;
     private List<Restaurant> listRestaurants;
 
     @Override
@@ -178,9 +180,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mMap = googleMap;
+        map = googleMap;
 
-        LocationService locationService = new LocationService(MainActivity.this);
+        locationService = new LocationService(MainActivity.this);
         LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses = null;
@@ -189,8 +191,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mMap.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getAddressLine(0)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+        map.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getAddressLine(0)));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case LocationService.MY_PERMISSION_ACCESS_FINE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    LocationService.fetchLocationData();
+                    LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    List<Address> addresses = null;
+                    try {
+                        addresses  = geocoder.getFromLocation(locationService.getLatitude(),locationService.getLongitude(), 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    map.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getAddressLine(0)));
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.GPS_permission_denied, Toast.LENGTH_LONG).show();
+                }
+                break;
+
+        }
     }
 
 
