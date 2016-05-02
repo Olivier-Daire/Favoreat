@@ -22,6 +22,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //get list of the restaurants
+        createListRestaurants();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -127,9 +134,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
-        //get list of the restaurants
-        createListRestaurants();
-
     }
 
     @Override
@@ -179,21 +183,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         GoogleMap mMap = googleMap;
-
         LocationService locationService = new LocationService(MainActivity.this);
-        LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses  = geocoder.getFromLocation(locationService.getLatitude(),locationService.getLongitude(), 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mMap.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getAddressLine(0)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+        placeMarkers(locationService, mMap);
     }
 
-
+    /**
+     * Create the favorite restaurants list by reading into preference xml file
+     */
     public void createListRestaurants() {
 
         SharedPreferences appSharedPrefs = PreferenceManager
@@ -205,6 +201,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Gson gson = new Gson();
             String json = appSharedPrefs.getString(entry.getKey(), "");
             listRestaurants.add(gson.fromJson(json, Restaurant.class));
+        }
+    }
+
+    /**
+     * Place favorite restaurants list markers and the current location marker
+     * @param locationService
+     * @param mMap
+     */
+    public void placeMarkers(LocationService locationService, GoogleMap mMap){
+
+        LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        List<Address> addresses = null;
+        try {
+            addresses  = geocoder.getFromLocation(locationService.getLatitude(),locationService.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
+        mMap.addMarker(new MarkerOptions().position(latLng).icon(icon).title(addresses.get(0).getAddressLine(0)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+
+        Iterator<Restaurant> restaurantIterator = listRestaurants.iterator();
+        while (restaurantIterator.hasNext()) {
+            Restaurant r = restaurantIterator.next();
+            LatLng rLatLng = new LatLng(r.getLatitude(), r.getLongitude());
+            List<Address> rAddresses = null;
+            try {
+                rAddresses  = geocoder.getFromLocation(r.getLatitude(),r.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mMap.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
         }
     }
 }
