@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
@@ -18,7 +20,7 @@ import java.util.Date;
  * Handle Camera logic : take a picture, create an image, convert to Bitmap
  *
  * @author Olivier Daire
- * @version 1.0
+ * @version 1.1
  * @since 29/04/16
  */
 public class CameraHandler {
@@ -87,6 +89,52 @@ public class CameraHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return photo;
+
+        return prepareBitmapForOCR(photo);
+    }
+
+    /**
+     * Prepare a bitmap file for the OCR : rotate if needed, convert to ARGB_8888
+     * @param bitmap
+     * @return bitmap
+     */
+    private static Bitmap prepareBitmapForOCR(Bitmap bitmap){
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(picturePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        int rotate = 0;
+
+        switch (exifOrientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotate = 90;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotate = 180;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotate = 270;
+                break;
+        }
+
+        if (rotate != 0) {
+            int w = bitmap.getWidth();
+            int h = bitmap.getHeight();
+
+            // Setting pre rotate
+            Matrix mtx = new Matrix();
+            mtx.preRotate(rotate);
+
+            // Rotating Bitmap
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
+        }
+        // Convert to ARGB_8888, required by Tesseract
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        return bitmap;
     }
 }

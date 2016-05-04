@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
 
 public class SelectorActivity extends AppCompatActivity {
 
@@ -42,7 +42,8 @@ public class SelectorActivity extends AppCompatActivity {
                 // Create new file using photo we just took
                 Bitmap photo = CameraHandler.createBitmapFromPicture(this, CameraHandler.picturePath);
 
-                // TODO Extract data from photo
+                OCR ocr = new OCR(photo, "fra", getApplicationContext());
+                Log.d("TAG",ocr.recognizeText());
             }
         }
     }
