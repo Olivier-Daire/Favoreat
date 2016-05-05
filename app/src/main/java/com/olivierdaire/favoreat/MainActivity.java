@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -248,6 +247,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * Place the marker of the current location
+     */
     public void placeUserMarker(){
         LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -269,11 +271,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onFinishEditDialog(int inputPrice, String inputType, int inputRating) {
         sortRestaurant(inputPrice, inputType, inputRating);
-        Log.d("prix" , Integer.toString(inputPrice));
-        Log.d("type" , inputType);
-        Log.d("note" , Integer.toString(inputRating));
     }
 
+    /**
+     * Replace restaurants markers after sort
+     * @param inputPrice
+     * @param inputType
+     * @param inputRating
+     */
     public void sortRestaurant(int inputPrice, String inputType, int inputRating) {
         map.clear();
         placeUserMarker();
