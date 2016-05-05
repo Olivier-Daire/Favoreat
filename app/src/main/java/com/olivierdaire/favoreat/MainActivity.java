@@ -1,5 +1,6 @@
 package com.olivierdaire.favoreat;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -39,12 +40,14 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, SortDialogFragment.EditNameDialogListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-
+    private LocationService locationService;
+    private GoogleMap map;
     private List<Restaurant> listRestaurants;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_search:
                 return true;
             case R.id.action_sort:
+                FragmentManager fm = getFragmentManager();
+                SortDialogFragment dialogFragment = new SortDialogFragment();
+                dialogFragment.show(fm, "Sample Fragment");
 
                 return true;
             default:
@@ -196,8 +202,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .getDefaultSharedPreferences(this.getApplicationContext());
 
         listRestaurants = new ArrayList<Restaurant>();
-        Map<String,?> mapPref = appSharedPrefs.getAll();
-        for(Map.Entry<String,?> entry : mapPref.entrySet()){
+        Map<String, ?> mapPref = appSharedPrefs.getAll();
+        for (Map.Entry<String, ?> entry : mapPref.entrySet()) {
             Gson gson = new Gson();
             String json = appSharedPrefs.getString(entry.getKey(), "");
             listRestaurants.add(gson.fromJson(json, Restaurant.class));
@@ -206,17 +212,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     /**
      * Place favorite restaurants list markers and the current location marker
+     *
      * @param locationService
      * @param mMap
      */
-    public void placeMarkers(LocationService locationService, GoogleMap mMap){
+    public void placeMarkers(LocationService locationService, GoogleMap mMap) {
 
         LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         List<Address> addresses = null;
         try {
-            addresses  = geocoder.getFromLocation(locationService.getLatitude(),locationService.getLongitude(), 1);
+            addresses = geocoder.getFromLocation(locationService.getLatitude(), locationService.getLongitude(), 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -230,11 +237,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng rLatLng = new LatLng(r.getLatitude(), r.getLongitude());
             List<Address> rAddresses = null;
             try {
-                rAddresses  = geocoder.getFromLocation(r.getLatitude(),r.getLongitude(), 1);
+                rAddresses = geocoder.getFromLocation(r.getLatitude(), r.getLongitude(), 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             mMap.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
+        }
+    }
+
+
+
+    @Override
+    public void onFinishEditDialog(int inputPrice, String inputType, int inputRating) {
+        sortRestaurant(inputPrice, inputType, inputRating);
+    }
+
+    public void sortRestaurant(int inputPrice, String inputType, int inputRating) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        Iterator<Restaurant> restaurantIterator = listRestaurants.iterator();
+        while (restaurantIterator.hasNext()) {
+            Restaurant r = restaurantIterator.next();
+            if ((r.getAveragePrice() < inputPrice) && (r.getType() == inputType) && (r.getRating() == inputRating)) {
+                LatLng rLatLng = new LatLng(r.getLatitude(), r.getLongitude());
+                List<Address> rAddresses = null;
+                try {
+                    rAddresses = geocoder.getFromLocation(r.getLatitude(), r.getLongitude(), 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //mMap.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
+            }
         }
     }
 }

@@ -18,4 +18,16 @@
     <string name="cuisine_type">Cuisine type</string>
     <string name="prix">Price</string>
     <string name="price">price</string>
+    <string name="cancel">Cancel</string>
+    <string name="sort_restaurants">Sort restaurants</string>
+    <string-array name="type_array">
+        <item>Chinois</item>
+        <item>Crêperie</item>
+        <item>Français</item>
+        <item>Fast-food</item>
+        <item>Italien</item>
+        <item>Indien</item>
+        <item>Japonais</item>
+        <item>Marocain</item>
+    </string-array>
 </resources>
