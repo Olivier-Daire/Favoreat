@@ -1,6 +1,5 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true">
@@ -29,8 +28,8 @@
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-            <FrameLayout
-                android:id="@+id/frame"
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/parentCoordinator"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
@@ -53,7 +52,7 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:src="@drawable/ic_add_24dp"
                     android:tint="#ffffff" />
-            </FrameLayout>
+            </android.support.design.widget.CoordinatorLayout>
 
         </LinearLayout>
 
