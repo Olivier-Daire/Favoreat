@@ -1,5 +1,6 @@
 package com.olivierdaire.favoreat;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -40,13 +41,14 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, SortDialogFragment.EditNameDialogListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private LocationService locationService;
     private GoogleMap map;
     private List<Restaurant> listRestaurants;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +177,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_search:
                 return true;
             case R.id.action_sort:
+                FragmentManager fm = getFragmentManager();
+                SortDialogFragment dialogFragment = new SortDialogFragment();
+                dialogFragment.show(fm, "Sample Fragment");
 
                 return true;
             default:
@@ -243,6 +248,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * Place the marker of the current location
+     */
     public void placeUserMarker(){
         LatLng latLng = new LatLng(locationService.getLatitude(), locationService.getLongitude());
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -257,6 +265,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
         map.addMarker(new MarkerOptions().position(latLng).icon(icon).title(addresses.get(0).getAddressLine(0)));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+    }
+
+
+
+    @Override
+    public void onFinishEditDialog(int inputPrice, String inputType, int inputRating) {
+        sortRestaurant(inputPrice, inputType, inputRating);
+    }
+
+    /**
+     * Replace restaurants markers after sort
+     * @param inputPrice
+     * @param inputType
+     * @param inputRating
+     */
+    public void sortRestaurant(int inputPrice, String inputType, int inputRating) {
+        map.clear();
+        placeUserMarker();
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        Iterator<Restaurant> restaurantIterator = listRestaurants.iterator();
+        while (restaurantIterator.hasNext()) {
+            Restaurant r = restaurantIterator.next();
+            if ((r.getAveragePrice() < inputPrice) && (r.getType().equals(inputType)) && (r.getRating() == inputRating)) {
+                LatLng rLatLng = new LatLng(r.getLatitude(), r.getLongitude());
+                List<Address> rAddresses = null;
+                try {
+                    rAddresses = geocoder.getFromLocation(r.getLatitude(), r.getLongitude(), 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                map.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
+
+            }
+        }
     }
 }
 
