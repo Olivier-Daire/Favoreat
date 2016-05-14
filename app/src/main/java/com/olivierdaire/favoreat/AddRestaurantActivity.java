@@ -51,6 +51,11 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
 
         seekBar = (SeekBar) findViewById(R.id.RestaurantPrice);
         textView = (TextView) findViewById(R.id.textPrice);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            EditText editName = (EditText) findViewById(R.id.RestaurantName);
+            editName.setText((String)bundle.get("RESTAURANT_NAME"));
+        }
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

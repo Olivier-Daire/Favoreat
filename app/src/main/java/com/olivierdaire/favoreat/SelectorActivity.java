@@ -43,7 +43,9 @@ public class SelectorActivity extends AppCompatActivity {
                 Bitmap photo = CameraHandler.createBitmapFromPicture(this, CameraHandler.picturePath);
 
                 OCR ocr = new OCR(photo, "fra", getApplicationContext());
-                Log.d("TAG",ocr.recognizeText());
+                Intent intent = new Intent(SelectorActivity.this, AddRestaurantActivity.class);
+                intent.putExtra("RESTAURANT_NAME", ocr.recognizeText());
+                startActivity(intent);
             }
         }
     }
