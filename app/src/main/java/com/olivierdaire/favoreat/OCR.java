@@ -128,6 +128,15 @@ public class OCR {
         String recognizedText = baseApi.getUTF8Text();
         baseApi.end();
 
+        // Remove non alpha numeric characters
+        recognizedText = recognizedText.replaceAll("[^a-zA-Z\\d\\s:]+", " ");
+
+        // TODO improve recognition :
+        // train tesseract https://medium.com/apegroup-texts/training-tesseract-for-labels-receipts-and-such-690f452e8f79
+        // use openCV to detect edge of receipt
+        // improve performance by initializing tesseract in constructor / before in SelectorActivity
+        // Tests Google vision API
+
         return recognizedText;
     }
 }
