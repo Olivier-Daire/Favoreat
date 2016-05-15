@@ -14,9 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.location.Geocoder;
@@ -33,6 +35,7 @@ import com.google.gson.Gson;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,7 +49,6 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
             if (bundle != null) {
                 String text = bundle.getString(OCRService.RECOGNIZED_TEXT);
                 int resultCode = bundle.getInt(OCRService.RESULT);
-
                 if (resultCode == RESULT_OK) {
                     // send text to display
                     TextView restaurantName = (TextView) findViewById(R.id.RestaurantName);
@@ -56,26 +58,9 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
             }
         }
     };
-
-    public class Receiver extends BroadcastReceiver {
-
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null){
-                int resultCode = bundle.getInt(OCRService.RESULT);
-                if (resultCode == RESULT_OK) {
-                    String text = intent.getStringExtra(OCRService.RECOGNIZED_TEXT);
-
-                } else {
-                    Toast.makeText(AddRestaurantActivity.this, R.string.OCR_failed, Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
     private TextView textView;
     private SeekBar seekBar;
+    private Spinner spin;
 
 
     @Override
@@ -90,6 +75,23 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
 
         seekBar = (SeekBar) findViewById(R.id.RestaurantPrice);
         textView = (TextView) findViewById(R.id.textPrice);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            EditText editName = (EditText) findViewById(R.id.RestaurantName);
+            editName.setText((String)bundle.get("RESTAURANT_NAME"));
+        }
+
+        // get spinner item
+        spin = (Spinner) findViewById(R.id.typeSpinnerRest);
+
+        List<String> list = Arrays.asList(getResources().getStringArray(R.array.type_array));
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spin.setAdapter(dataAdapter);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -178,10 +180,11 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         // Get views by ID
         EditText editName = (EditText) findViewById(R.id.RestaurantName);
         EditText editAddress = (EditText) findViewById(R.id.RestaurantAdress);
-        EditText editCuisine = (EditText) findViewById(R.id.RestaurantCuisine);
         TextView editPrice = (TextView) findViewById(R.id.textPrice);
         String price = editPrice.getText().toString().replaceAll("[^0-9]", "");
         RatingBar editRate = (RatingBar) findViewById(R.id.RestaurantNote);
+
+        String editSpin = spin.getSelectedItem().toString();
 
         // Get the latitude and longitude from address
         Geocoder coder = new Geocoder(this);
@@ -198,7 +201,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         }
 
         // Create new restaurant object
-        Restaurant newRestaurant = new Restaurant(editName.getText().toString(), latitude, longitude, editCuisine.getText().toString(), Integer.parseInt(price), Math.round(editRate.getRating()));
+        Restaurant newRestaurant = new Restaurant(editName.getText().toString(), latitude, longitude, editSpin, Integer.parseInt(price), Math.round(editRate.getRating()));
 
         // Save de new restaurant in shared preference file
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());

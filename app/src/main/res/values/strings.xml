@@ -24,13 +24,14 @@
     <string name="sort_restaurants">Sort restaurants</string>
     <string name="OCR_failed">Image recognition failed, sorry about that !</string>
     <string-array name="type_array">
-        <item>Chinois</item>
-        <item>Crêperie</item>
-        <item>Français</item>
+        <item>All</item>
+        <item>Chinese</item>
+        <item>Creperie</item>
+        <item>French</item>
         <item>Fast-food</item>
-        <item>Italien</item>
-        <item>Indien</item>
-        <item>Japonais</item>
-        <item>Marocain</item>
+        <item>Italian</item>
+        <item>Indian</item>
+        <item>Japanese</item>
+        <item>Moroccan</item>
     </string-array>
 </resources>

@@ -37,7 +37,7 @@
                 android:layout_height="25dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/ic_store_mall_directory_black_24dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:tint="@color/colorPrimary"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp" />
@@ -74,7 +74,7 @@
                 android:layout_height="25dp"
                 android:id="@+id/imageView2"
                 android:src="@drawable/ic_room_black_24dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:tint="@color/colorPrimary"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp" />
@@ -103,21 +103,18 @@
                 android:layout_height="25dp"
                 android:id="@+id/imageView3"
                 android:src="@drawable/ic_local_dining_black_24dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:tint="@color/colorPrimary"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"/>
 
-            <EditText
+            <Spinner
+                android:id="@+id/typeSpinnerRest"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:ems="10"
-                android:id="@+id/RestaurantCuisine"
-                android:hint="@string/cuisine_type"
-                android:layout_margin="20dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="0dp"/>
+                android:textSize="10pt"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="15dp"/>
 
         </LinearLayout>
 
@@ -132,7 +129,7 @@
                 android:layout_height="25dp"
                 android:id="@+id/imageView4"
                 android:src="@drawable/ic_attach_money_black_24dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:tint="@color/colorPrimary"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"/>
@@ -171,7 +168,7 @@
                 android:layout_height="25dp"
                 android:id="@+id/imageView6"
                 android:src="@drawable/ic_star_black_24dp"
-                android:tint="@color/abc_background_cache_hint_selector_material_dark"
+                android:tint="@color/colorPrimary"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"/>
