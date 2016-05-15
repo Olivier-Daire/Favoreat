@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Iterator<Restaurant> restaurantIterator = listRestaurants.iterator();
         while (restaurantIterator.hasNext()) {
             Restaurant r = restaurantIterator.next();
-            if ((r.getAveragePrice() < inputPrice) && (r.getType().equals(inputType)) && (r.getRating() == inputRating)) {
+            if ((r.getAveragePrice() < inputPrice) && ( (r.getType().equals(inputType)) || (inputType.equals("All")) ) && ( (r.getRating() == inputRating) || (inputRating == 0) ) ) {
                 LatLng rLatLng = new LatLng(r.getLatitude(), r.getLongitude());
                 List<Address> rAddresses = null;
                 try {
