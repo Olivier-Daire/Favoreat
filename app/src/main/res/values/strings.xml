@@ -22,6 +22,7 @@
     <string name="GPS_permission_denied">Permission denied, you cannot access location data.</string>
     <string name="cancel">Cancel</string>
     <string name="sort_restaurants">Sort restaurants</string>
+    <string name="OCR_failed">Image recognition failed, sorry about that !</string>
     <string-array name="type_array">
         <item>Chinois</item>
         <item>Crêperie</item>

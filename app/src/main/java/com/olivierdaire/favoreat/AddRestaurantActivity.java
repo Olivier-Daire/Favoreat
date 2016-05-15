@@ -1,6 +1,9 @@
 package com.olivierdaire.favoreat;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.location.Geocoder;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,7 +38,42 @@ import java.util.Locale;
 
 
 public class AddRestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
+    // Receive data from background OCR Service
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                String text = bundle.getString(OCRService.RECOGNIZED_TEXT);
+                int resultCode = bundle.getInt(OCRService.RESULT);
 
+                if (resultCode == RESULT_OK) {
+                    // send text to display
+                    TextView restaurantName = (TextView) findViewById(R.id.RestaurantName);
+                    restaurantName.setText(text);
+                } else {
+                    Toast.makeText(AddRestaurantActivity.this, "Image recognition failed, sorry about that !", Toast.LENGTH_LONG).show();                }
+            }
+        }
+    };
+
+    public class Receiver extends BroadcastReceiver {
+
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                int resultCode = bundle.getInt(OCRService.RESULT);
+                if (resultCode == RESULT_OK) {
+                    String text = intent.getStringExtra(OCRService.RECOGNIZED_TEXT);
+
+                } else {
+                    Toast.makeText(AddRestaurantActivity.this, R.string.OCR_failed, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
     private TextView textView;
     private SeekBar seekBar;
 
@@ -51,12 +90,6 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
 
         seekBar = (SeekBar) findViewById(R.id.RestaurantPrice);
         textView = (TextView) findViewById(R.id.textPrice);
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            EditText editName = (EditText) findViewById(R.id.RestaurantName);
-            editName.setText((String)bundle.get("RESTAURANT_NAME"));
-        }
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -180,4 +213,15 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         startActivity(returnBtn);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, new IntentFilter(OCRService.RECEIVER));
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
 }
