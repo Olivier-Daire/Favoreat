@@ -1,7 +1,9 @@
 package com.olivierdaire.favoreat;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,7 +41,23 @@ import java.util.Locale;
 
 
 public class AddRestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
-
+    // Receive data from background OCR Service
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                String text = bundle.getString(OCRService.RECOGNIZED_TEXT);
+                int resultCode = bundle.getInt(OCRService.RESULT);
+                if (resultCode == RESULT_OK) {
+                    // send text to display
+                    TextView restaurantName = (TextView) findViewById(R.id.RestaurantName);
+                    restaurantName.setText(text);
+                } else {
+                    Toast.makeText(AddRestaurantActivity.this, "Image recognition failed, sorry about that !", Toast.LENGTH_LONG).show();                }
+            }
+        }
+    };
     private TextView textView;
     private SeekBar seekBar;
     private Spinner spin;
@@ -75,7 +92,6 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spin.setAdapter(dataAdapter);
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -165,8 +181,8 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
     public void onClickValidate() {
 
         Context context = getApplicationContext();
-        // Get views by ID
 
+        // Get views by ID
         EditText editName = (EditText) findViewById(R.id.RestaurantName);
         EditText editAddress = (EditText) findViewById(R.id.RestaurantAdress);
         TextView editPrice = (TextView) findViewById(R.id.textPrice);
@@ -176,7 +192,6 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         String editSpin = spin.getSelectedItem().toString();
 
         if (editName.getText().toString().matches("")) {
-            Log.d("toast","test");
             CharSequence text = "You did not enter a name";
             int duration = Toast.LENGTH_SHORT;
 
@@ -186,7 +201,6 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         }
 
         if (editAddress.getText().toString().matches("")) {
-            Log.d("toast","test");
             CharSequence text = "You did not enter an address";
             int duration = Toast.LENGTH_SHORT;
 
@@ -225,4 +239,15 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         startActivity(returnBtn);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, new IntentFilter(OCRService.RECEIVER));
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
 }
