@@ -161,7 +161,6 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         // Get views by ID
         EditText editName = (EditText) findViewById(R.id.RestaurantName);
         EditText editAddress = (EditText) findViewById(R.id.RestaurantAdress);
-        //EditText editCuisine = (EditText) findViewById(R.id.RestaurantCuisine);
         TextView editPrice = (TextView) findViewById(R.id.textPrice);
         String price = editPrice.getText().toString().replaceAll("[^0-9]", "");
         RatingBar editRate = (RatingBar) findViewById(R.id.RestaurantNote);

@@ -87,6 +87,15 @@ public class SortDialogFragment extends DialogFragment {
             }
         });
 
+        builder.setNeutralButton("Reset",  new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditNameDialogListener activity = (EditNameDialogListener) getActivity();
+                activity.onFinishEditDialog(100, "All", 0);
+                dismiss();
+            }
+        });
+
         return builder.create();
     }
 
