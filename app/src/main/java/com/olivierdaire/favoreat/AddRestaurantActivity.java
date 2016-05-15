@@ -1,5 +1,6 @@
 package com.olivierdaire.favoreat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -8,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.location.Geocoder;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -149,7 +152,9 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
             @Override
             public boolean onMarkerClick(Marker arg0) {
                 TextView restAdress = (TextView) findViewById(R.id.RestaurantAdress);
-                restAdress.setText(finalAddresses.get(0).getAddressLine(0));
+                String completeAddress = finalAddresses.get(0).getAddressLine(0) + " " + finalAddresses.get(0).getPostalCode() + " " + finalAddresses.get(0).getLocality();
+                assert restAdress != null;
+                restAdress.setText(completeAddress);
                 return true;
             }
 
@@ -158,7 +163,10 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
     }
 
     public void onClickValidate() {
+
+        Context context = getApplicationContext();
         // Get views by ID
+
         EditText editName = (EditText) findViewById(R.id.RestaurantName);
         EditText editAddress = (EditText) findViewById(R.id.RestaurantAdress);
         TextView editPrice = (TextView) findViewById(R.id.textPrice);
@@ -166,6 +174,26 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         RatingBar editRate = (RatingBar) findViewById(R.id.RestaurantNote);
 
         String editSpin = spin.getSelectedItem().toString();
+
+        if (editName.getText().toString().matches("")) {
+            Log.d("toast","test");
+            CharSequence text = "You did not enter a name";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+
+        if (editAddress.getText().toString().matches("")) {
+            Log.d("toast","test");
+            CharSequence text = "You did not enter an address";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
 
         // Get the latitude and longitude from address
         Geocoder coder = new Geocoder(this);
