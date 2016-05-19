@@ -2,13 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@color/colorAccent"/>
+        android:drawable="@color/white"/>
 
     <item>
-        <!--TODO Use vector instead-->
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/screen" />
     </item>
 
 </layer-list>
