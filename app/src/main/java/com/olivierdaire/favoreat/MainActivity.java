@@ -299,7 +299,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                map.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
+                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.marker_rest);
+                map.addMarker(new MarkerOptions().position(rLatLng).icon(icon).title(rAddresses.get(0).getAddressLine(0)));
 
             }
         }
