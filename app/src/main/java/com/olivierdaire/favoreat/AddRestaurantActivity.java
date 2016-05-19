@@ -29,7 +29,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
@@ -162,19 +161,13 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
 
         final List<Address> finalAddresses = addresses;
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-        {
 
-            @Override
-            public boolean onMarkerClick(Marker arg0) {
-                TextView restAdress = (TextView) findViewById(R.id.RestaurantAdress);
-                String completeAddress = finalAddresses.get(0).getAddressLine(0) + " " + finalAddresses.get(0).getPostalCode() + " " + finalAddresses.get(0).getLocality();
-                assert restAdress != null;
-                restAdress.setText(completeAddress);
-                return true;
-            }
+        TextView restAdress = (TextView) findViewById(R.id.RestaurantAdress);
+        String completeAddress = finalAddresses.get(0).getAddressLine(0) + " " + finalAddresses.get(0).getPostalCode() + " " + finalAddresses.get(0).getLocality();
+        assert restAdress != null;
+        restAdress.setText(completeAddress);
 
-        });
+
 
     }
 

@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setLogo(R.drawable.logo_white);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         // FAB
         addFAB = (FloatingActionButton) findViewById(R.id.fab);
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -272,7 +276,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 e.printStackTrace();
             }
             map.setOnMarkerClickListener(this);
-            map.addMarker(new MarkerOptions().position(rLatLng).title(Integer.toString(i)).snippet("restaurant"));
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.marker_rest);
+            map.addMarker(new MarkerOptions().position(rLatLng).icon(icon).title(Integer.toString(i)).snippet("restaurant"));
             // FIXME Hacky way to retrieve index, use hash map instead to link an index to a marker
             i++;
         }
@@ -292,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
 
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.marker_user);
         map.addMarker(new MarkerOptions().position(latLng).icon(icon).title(addresses.get(0).getAddressLine(0)).snippet("user"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
     }
@@ -357,7 +362,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                map.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
+                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.marker_rest);
+                map.addMarker(new MarkerOptions().position(rLatLng).icon(icon).title(rAddresses.get(0).getAddressLine(0)));
 
             }
         }
