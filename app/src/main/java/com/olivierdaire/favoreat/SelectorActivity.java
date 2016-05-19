@@ -1,12 +1,14 @@
 package com.olivierdaire.favoreat;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Allow the user to choose between the two input methods
+ */
 public class SelectorActivity extends AppCompatActivity {
 
     @Override

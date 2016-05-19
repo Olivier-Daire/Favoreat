@@ -65,13 +65,14 @@
         </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/destination_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:src="@android:drawable/ic_menu_send"
+            android:src="@drawable/ic_directions_black_24dp"
+            android:tint="#ffffff"
             app:layout_anchor="@id/bottom_sheet_title"
-            app:layout_anchorGravity="top|right|end"
-            android:tint="#ffffff" />
+            app:layout_anchorGravity="top|right|end" />
     </android.support.design.widget.CoordinatorLayout>
 </android.support.v4.widget.NestedScrollView>

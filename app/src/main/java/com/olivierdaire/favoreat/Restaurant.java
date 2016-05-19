@@ -1,7 +1,5 @@
 package com.olivierdaire.favoreat;
 
-import java.io.File;
-
 /**
  * Describe a restaurant with its name, type, average price, rating and photos
  *

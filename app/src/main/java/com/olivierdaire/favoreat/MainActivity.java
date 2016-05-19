@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -17,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private BottomSheetBehavior bottomSheetBehavior;
     private View bottomSheet;
     private FloatingActionButton addFAB;
+    private double destinationLatitude = 0;
+    private double destinationLongitude = 0;
 
 
     @Override
@@ -85,6 +87,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SelectorActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // FAB
+        FloatingActionButton destinationFAB = (FloatingActionButton) findViewById(R.id.destination_fab);
+        destinationFAB.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destinationLatitude+ "," + destinationLongitude);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
             }
         });
 
@@ -327,6 +341,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (note != null) {
                 note.setRating(restaurant.getRating());
             }
+
+            // Update destination address
+            destinationLatitude = restaurant.getLatitude();
+            destinationLongitude = restaurant.getLongitude();
 
             addFAB.setVisibility(View.INVISIBLE);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
