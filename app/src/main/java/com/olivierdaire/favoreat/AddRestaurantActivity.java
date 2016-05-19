@@ -192,7 +192,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         String editSpin = spin.getSelectedItem().toString();
 
         if (editName.getText().toString().matches("")) {
-            CharSequence text = "You did not enter a name";
+            CharSequence text = getString(R.string.no_name);
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
@@ -201,7 +201,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements OnMapRea
         }
 
         if (editAddress.getText().toString().matches("")) {
-            CharSequence text = "You did not enter an address";
+            CharSequence text = getString(R.string.no_address);
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);

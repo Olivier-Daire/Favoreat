@@ -11,7 +11,7 @@
     <string name="home_string">Home</string>
     <string name="account_string">My account</string>
     <string name="friends_string">My friends</string>
-    <string name="use_camera">Take a picture of your bill and we\'ll scan it to extract useful information</string>
+    <string name="use_camera">Take a picture of the front store and we\'ll scan it to extract the restaurant name</string>
     <string name="use_input">... Or use direct input</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
@@ -23,6 +23,8 @@
     <string name="cancel">Cancel</string>
     <string name="sort_restaurants">Sort restaurants</string>
     <string name="OCR_failed">Image recognition failed, sorry about that !</string>
+    <string name="no_name">You did not enter a name</string>
+    <string name="no_address">You did not enter an address</string>
     <string-array name="type_array">
         <item>All</item>
         <item>Chinese</item>

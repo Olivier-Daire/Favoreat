@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -15,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,10 +30,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import android.support.design.widget.NavigationView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -41,13 +47,16 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, SortDialogFragment.EditNameDialogListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, SortDialogFragment.EditNameDialogListener, GoogleMap.OnMarkerClickListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private LocationService locationService;
     private GoogleMap map;
     private List<Restaurant> listRestaurants;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private View bottomSheet;
+    private FloatingActionButton addFAB;
 
 
     @Override
@@ -67,12 +76,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setSupportActionBar(toolbar);
 
         // FAB
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
+        addFAB = (FloatingActionButton) findViewById(R.id.fab);
+        addFAB.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SelectorActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Bottom sheet
+        bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetBehavior.setPeekHeight(0);
+                    addFAB.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
             }
         });
 
@@ -234,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         Iterator<Restaurant> restaurantIterator = listRestaurants.iterator();
+        int i = 0;
         while (restaurantIterator.hasNext()) {
             Restaurant r = restaurantIterator.next();
             LatLng rLatLng = new LatLng(r.getLatitude(), r.getLongitude());
@@ -243,8 +271,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // FIXME Check if index 0 exist in list to avoid crash when user list is empty
-            map.addMarker(new MarkerOptions().position(rLatLng).title(rAddresses.get(0).getAddressLine(0)));
+            map.setOnMarkerClickListener(this);
+            map.addMarker(new MarkerOptions().position(rLatLng).title(Integer.toString(i)).snippet("restaurant"));
+            // FIXME Hacky way to retrieve index, use hash map instead to link an index to a marker
+            i++;
         }
     }
 
@@ -263,10 +293,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
-        map.addMarker(new MarkerOptions().position(latLng).icon(icon).title(addresses.get(0).getAddressLine(0)));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
+        map.addMarker(new MarkerOptions().position(latLng).icon(icon).title(addresses.get(0).getAddressLine(0)).snippet("user"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker){
+        if (!marker.getSnippet().equals("user")){
+            int index = Integer.parseInt(marker.getTitle());
+            Restaurant restaurant = listRestaurants.get(index);
+
+            map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+
+            TextView title = (TextView)findViewById(R.id.bottom_sheet_title);
+            TextView type = (TextView)findViewById(R.id.bottom_sheet_type);
+            TextView price = (TextView)findViewById(R.id.bottom_sheet_price);
+            RatingBar note = (RatingBar)findViewById(R.id.bottom_sheet_note);
+
+            if (title != null) {
+                title.setText(restaurant.getName()); // FIXME set restaurant name
+            }
+            if (type != null) {
+                type.setText(restaurant.getType()); // FIXME set restaurant name
+            }
+            if (price != null) {
+                price.setText(Integer.toString(restaurant.getAveragePrice()) + "$"); // FIXME set restaurant name
+            }
+            if (note != null) {
+                note.setRating(restaurant.getRating());
+            }
+
+            addFAB.setVisibility(View.INVISIBLE);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+
+        return true;
+    }
 
 
     @Override
